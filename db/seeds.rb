@@ -28,3 +28,8 @@ ArtworkShare.create!(viewer_id: 3, artwork_id: 2)
 ArtworkShare.create!(viewer_id: 4, artwork_id: 1)
 ArtworkShare.create!(viewer_id: 4, artwork_id: 3)
 ArtworkShare.create!(viewer_id: 4, artwork_id: 5)
+
+Comment.create!(user_id: 1, artwork_id: 2, body: "Nice!!")
+Comment.create!(user_id: 2, artwork_id: 4, body: "Awesome!!")
+Comment.create!(user_id: 3, artwork_id: 1, body: "Amazing!!")
+Comment.create!(user_id: 4, artwork_id: 3, body: "Great!!")

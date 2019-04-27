@@ -5,11 +5,19 @@ class Artwork < ApplicationRecord
     foreign_key: :artist_id,
     class_name: "User"
 
-  has_many :viewers,
-    foreign_key: :artwork_id,
-    class_name: "ArtworkShare"
+  has_many :comments, dependent: :destroy,
+                      foreign_key: :artwork_id,
+                      class_name: "Comment"
+
+  has_many :shares, dependent: :destroy,
+                    foreign_key: :artwork_id,
+                    class_name: "ArtworkShare"
 
   has_many :shared_viewers,
     through: :viewers,
     source: :viewer
+
+  def self.artworks_shares_and_owned(user_id)
+    Artwork.joins(:shares).where("(artwork_shares.viewer_id = :user_id) OR (artworks.artist_id = :user_id)", user_id: user_id).distinct
+  end
 end

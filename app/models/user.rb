@@ -9,6 +9,10 @@ class User < ApplicationRecord
                     foreign_key: :viewer_id,
                     class_name: "ArtworkShare"
 
+  has_many :comments, dependent: :destroy,
+                      foreign_key: :user_id,
+                      class_name: "Comment"
+
   has_many :shared_artwork,
            through: :shares,
            source: :artwork
