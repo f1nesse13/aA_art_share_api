@@ -17,6 +17,12 @@ class Artwork < ApplicationRecord
     through: :viewers,
     source: :viewer
 
+  has_many :likes, as: :like
+
+  has_many :user_likes,
+           through: :likes,
+           source: :user
+
   def self.artworks_shares_and_owned(user_id)
     Artwork.joins(:shares).where("(artwork_shares.viewer_id = :user_id) OR (artworks.artist_id = :user_id)", user_id: user_id).distinct
   end
