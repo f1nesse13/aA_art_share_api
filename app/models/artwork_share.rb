@@ -16,4 +16,8 @@ class ArtworkShare < ApplicationRecord
       self.errors[:viewer_id] << "Cannot share artwork with the artist!"
     end
   end
+
+  def favorite?
+    self.favorite == true
+  end
 end

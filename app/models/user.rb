@@ -30,4 +30,27 @@ class User < ApplicationRecord
            through: :likes,
            source: :like,
            source_type: "Comment"
+
+  has_many :favorites,
+           foreign_key: :user_id,
+           class_name: "Favorite"
+
+  has_many :favorite_artworks,
+           through: :favorites,
+           source: :artwork
+
+  def favorite(artwork)
+    Favorite.create!(user_id: self.id, artwork_id: artwork)
+  end
+
+  def unfavorite(artwork)
+    Favorite.where(user_id: self.id, artwork_id: artwork).destroy_all
+  end
+
+  def shared_or_owned
+    rtn_array = []
+    rtn_array << self.artworks
+    rtn_array << self.shared_artwork
+    rtn_array.flatten!
+  end
 end

@@ -18,6 +18,37 @@ class UsersController < ApplicationController
     end
   end
 
+  def show_favorites
+    user = User.find(params[:id])
+
+    render json: user.favorite_artworks
+  end
+
+  def add_favorite
+    user = User.find(params[:id])
+    artwork = Artwork.find(params[:artwork_id])
+
+    if user.shared_or_owned.include?(artwork)
+      if user.favorite(params[:artwork_id])
+        render json: user.favorite_artworks
+      else
+        render json: user.errors.full_messages, status: :unprocessable_entity
+      end
+    else
+      render plain: "You cannot favorite artworks not owned or shared!"
+    end
+  end
+
+  def delete_favorite
+    user = User.find(params[:id])
+
+    if user.unfavorite(params[:artwork_id])
+      render json: user.favorite_artworks
+    else
+      render json: user.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
   def show
     user = User.find(params[:id])
 
